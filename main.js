@@ -42,7 +42,7 @@ function load() {
         if (elem) {
           rate1 = elem.dataset.rate;
         }
-        curr1.textContent = `${currency_input.value} ${elem.dataset.cc}`;
+        curr1.textContent = `${rate2 / rate1} ${elem.dataset.cc}`;
         console.log(currency_input.value);
         console.log(currency_input.dataset.cc);
 
@@ -52,18 +52,15 @@ function load() {
           `datalist option[value="${event.target.value}"]`
         );
         if (elem) {
-          rate2 = elem.dataset.rate;
-        }
-        if (elem) {
-            rate1 = elem.dataset.rate;
+            rate2 = elem.dataset.rate;
           }
-          curr2.textContent = `${currency_out.value} ${elem.dataset.cc}`;
+          curr2.textContent = `${(rate1 / rate2).toFixed(3)} ${elem.dataset.cc}`;
           console.log(currency_input.value);
           console.log(currency_input.dataset.cc);
   
       });
       currency_input.addEventListener("input", (event) => {
-        currency_out.value = currency_input.value * (rate1 / rate2);
+        currency_out.value = (currency_input.value * (rate1 / rate2)).toFixed(3);
       });
     });
 }
