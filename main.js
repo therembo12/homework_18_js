@@ -4,8 +4,8 @@ function load() {
     .then((list) => {
       let rate1 = "1";
       let rate2 = "1";
-      let elem1
-      let elem2
+      let elem1;
+      let elem2;
       for (let i = 0; i < list.length; i++) {
         let $option = document.createElement("option");
         $option.setAttribute("value", `${list[i].cc}  ${list[i].txt}`);
@@ -14,16 +14,16 @@ function load() {
         currency.appendChild($option);
       }
       currency1.addEventListener("input", (event) => {
-         elem1 = document.querySelector(
+        elem1 = document.querySelector(
           `datalist option[value="${event.target.value}"]`
         );
+        rate1 = elem1.dataset.rate;
+
         if (elem1 && elem2) {
-          rate1 = elem1.dataset.rate;
           if (rate2 == rate1) {
-            curr1.textContent = `${rate1} ${elem1.dataset.cc}`;
-            curr2.textContent = `${rate2} ${elem2.dataset.cc}`;
-          }
-          if (rate1 > rate2) {
+            curr1.textContent = `${1} ${elem1.dataset.cc}`;
+            curr2.textContent = `${1} ${elem2.dataset.cc}`;
+          } else if (rate1 > rate2) {
             curr1.textContent = `${1} ${elem1.dataset.cc}`;
             curr2.textContent = `${rate1} ${elem2.dataset.cc}`;
           } else {
@@ -33,16 +33,15 @@ function load() {
         }
       });
       currency2.addEventListener("input", (event) => {
-         elem2 = document.querySelector(
+        elem2 = document.querySelector(
           `datalist option[value="${event.target.value}"]`
         );
+        rate2 = elem2.dataset.rate;
         if (elem1 && elem2) {
-          rate2 = elem2.dataset.rate;
           if (rate2 == rate1) {
-            curr1.textContent = `${rate1} ${elem1.dataset.cc}`;
-            curr2.textContent = `${rate2} ${elem2.dataset.cc}`;
-          }
-          if (rate1 > rate2) {
+            curr1.textContent = `${1} ${elem1.dataset.cc}`;
+            curr2.textContent = `${1} ${elem2.dataset.cc}`;
+          } else if (rate1 > rate2) {
             curr1.textContent = `${1} ${elem1.dataset.cc}`;
             curr2.textContent = `${rate1} ${elem2.dataset.cc}`;
           } else {
