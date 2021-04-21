@@ -26,8 +26,10 @@ function load() {
   fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json")
     .then((response) => response.json())
     .then((list) => {
-      let rate1 = 1;
-      let rate2 = 1;
+      let rate1 = "1";
+      let rate2 = "1";
+      let elem1
+      let elem2
       for (let i = 0; i < list.length; i++) {
         let $option = document.createElement("option");
         $option.setAttribute("value", `${list[i].cc}  ${list[i].txt}`);
@@ -36,31 +38,47 @@ function load() {
         currency.appendChild($option);
       }
       currency1.addEventListener("input", (event) => {
-        let elem = document.querySelector(
+         elem1 = document.querySelector(
           `datalist option[value="${event.target.value}"]`
         );
-        if (elem) {
-          rate1 = elem.dataset.rate;
+        if (elem1 && elem2) {
+          rate1 = elem1.dataset.rate;
+          if (rate2 == rate1) {
+            curr1.textContent = `${rate1} ${elem1.dataset.cc}`;
+            curr2.textContent = `${rate2} ${elem2.dataset.cc}`;
+          }
+          if (rate1 > rate2) {
+            curr1.textContent = `${1} ${elem1.dataset.cc}`;
+            curr2.textContent = `${rate1} ${elem2.dataset.cc}`;
+          } else {
+            curr1.textContent = `${rate2} ${elem1.dataset.cc}`;
+            curr2.textContent = `${1} ${elem2.dataset.cc}`;
+          }
         }
-        curr1.textContent = `${rate2 / rate1} ${elem.dataset.cc}`;
-        console.log(currency_input.value);
-        console.log(currency_input.dataset.cc);
-
       });
       currency2.addEventListener("input", (event) => {
-        let elem = document.querySelector(
+         elem2 = document.querySelector(
           `datalist option[value="${event.target.value}"]`
         );
-        if (elem) {
-            rate2 = elem.dataset.rate;
+        if (elem1 && elem2) {
+          rate2 = elem2.dataset.rate;
+          if (rate2 == rate1) {
+            curr1.textContent = `${rate1} ${elem1.dataset.cc}`;
+            curr2.textContent = `${rate2} ${elem2.dataset.cc}`;
           }
-          curr2.textContent = `${(rate1 / rate2).toFixed(3)} ${elem.dataset.cc}`;
-          console.log(currency_input.value);
-          console.log(currency_input.dataset.cc);
-  
+          if (rate1 > rate2) {
+            curr1.textContent = `${1} ${elem1.dataset.cc}`;
+            curr2.textContent = `${rate1} ${elem2.dataset.cc}`;
+          } else {
+            curr1.textContent = `${rate2} ${elem1.dataset.cc}`;
+            curr2.textContent = `${1} ${elem2.dataset.cc}`;
+          }
+        }
       });
       currency_input.addEventListener("input", (event) => {
-        currency_out.value = (currency_input.value * (rate1 / rate2)).toFixed(3);
+        currency_out.value = (currency_input.value * (rate1 / rate2)).toFixed(
+          3
+        );
       });
     });
 }
